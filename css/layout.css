@@ -76,7 +76,7 @@ header {
 }
 
 #playerbar {
-    	background: #203;
+    background: #203;
 	height: 600px;
 	position: absolute;
 	width: 120px;
@@ -100,9 +100,9 @@ header {
 
 #main {
 	background: #102;
-    	border-left: 1px solid #405;
+    border-left: 1px solid #405;
 	height: 600px;
-    	left: 121px;
+    left: 121px;
 	position: absolute;
 	width: 300px;
 }
@@ -162,7 +162,7 @@ header {
 }
 
 .playerindicator {
-	background: #001;
+    background: #001;
 	margin: 15px;
 	overflow: hidden;
 	position: relative;
@@ -194,6 +194,7 @@ header {
 	text-align: center;
 	text-shadow: 0 0 15px #000;
 	top: 87px;
+    left: 120px;
 	width: 300px;
 }
 

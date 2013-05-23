@@ -1,6 +1,37 @@
 /*global tetriscide:false, goinstant:false, $:false, console:false */
 window.tetriscide = window.tetriscide || {};
 
+//populates the player list
+function populatePlayers() {
+    var div
+    //clear list first
+    var node = document.getElementById("playerlist");
+    while (node.hasChildNodes()) {
+        node.removeChild(node.lastChild);
+    }
+    
+    //populate playerlist
+    _.forEach(window.tetriscide.gameState.players, function(player) {
+        console.log(player.id);
+        console.log(player.name);
+        div = document.createElement('div');
+        div.innerHTML = player.name;
+        div.id = player.id;
+        div.className = 'playerindicator';
+        
+        if (player.id != window.tetriscide.me.id) {
+              document.getElementById("playerlist").appendChild(div);
+              
+        }
+        else {
+              if (document.getElementById("localplayer").hasChildNodes() == false) {
+                document.getElementById("localplayer").appendChild(div);
+                
+              }
+        }
+    });
+}
+
 (function() {
   var DATA_ROOT = "/tetriscide/";
   var GS_PLAYERS_KEY = DATA_ROOT + "players";
@@ -45,7 +76,6 @@ window.tetriscide = window.tetriscide || {};
     this._name = name;
     this._updateMe();
   };
-
 
   // initialization
   function init() {
@@ -102,11 +132,11 @@ window.tetriscide = window.tetriscide || {};
 
     players.get(function(resp) {
       tetriscide.gameState.players = resp.value;
+      populatePlayers();
     });
-
   }
 
   // initialize all the things after the body is loaded.
   $(document).ready(init);
-
+ 
 }());
