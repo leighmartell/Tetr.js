@@ -2,13 +2,39 @@
 window.tetriscide = window.tetriscide || {};
 
 (function() {
-  var DATA_ROOT = "/tetriscide22/";
+  var DATA_ROOT = "/tetriscide/";
   var GS_PLAYERS_KEY = DATA_ROOT + "players";
-  var GS_MASTER_KEY = 'master';
+  var GS_MASTER_KEY = DATA_ROOT+ 'master';
+  var QUEUE = DATA_ROOT+ 'queue';
   var KEYPRESS = DATA_ROOT + "keypress";
 
   // global player object representing me me me.
   var go;
+
+  function Block(item) {
+    // generate a random value here to represent me. This is
+    // just a random 7 digit number for now (kinda lame)
+    this.id = Math.floor(Math.random() * 8999999) + 1000000;
+    this._key = QUEUE + '/' + this.id;
+    this.item = item;
+    // add me to the list of players
+    this._reference = go.key(this._key);
+
+  }
+
+  Block.prototype.id = 0;
+  Block.prototype._key = 'unknown';
+  Block.prototype._item = null;
+  Block.prototype._reference = null;
+
+  Block.prototype.register = function() {
+    console.log('Register', this._key, this.id, this.item);
+    this._reference.set({ id: this.id, item: this.item });
+  };
+
+  Block.prototype.unregister = function() {
+    this._reference.remove();
+  };
 
   function Me() {
     // generate a random value here to represent me. This is
@@ -21,6 +47,7 @@ window.tetriscide = window.tetriscide || {};
 
     this._updateMe();
   }
+
   Me.prototype.id = 0;
   Me.prototype.name = 'a player';
   Me.prototype._key = 'unknown';
@@ -55,10 +82,13 @@ window.tetriscide = window.tetriscide || {};
     go = new goinstant.Platform();
 
     // initialize an empty gamestate.
+    tetriscide.Block = Block;
     tetriscide.gameState = {};
+    tetriscide.gameState.queue = [];
     tetriscide.gameState.players = {};
     tetriscide.gameState.master = null;
     tetriscide.keyPress = go.key(KEYPRESS);
+    tetriscide.queue = go.key(QUEUE);
 
     // Create the players key if it does not exist.
     // Update the game state whenever the players list changes. This will
