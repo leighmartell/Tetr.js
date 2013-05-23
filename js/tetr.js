@@ -54,10 +54,6 @@ tetrjs = (function($) {
 			queue: new tetrjs.Field(this, 'queue', 100, 4)
 			};
 
-		$.each(new Array(6), function() { self.queueAdd(); });
-
-		this.next();
-
 		//Call start div
 		this.startPaused();
 
@@ -135,6 +131,7 @@ tetrjs = (function($) {
 		$('#start').hide();
 		/** @member */
 		// set interval on control
+		this.next();
 		this.setMaster();
 		this.newgame = false;
 	};
